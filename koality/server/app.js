@@ -2,6 +2,11 @@ const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const passport = require("passport");    
+const bodyParser = require("body-parser");    
+const User = require("./models/user");    
+const LocalStrategy = require("passport-local"); 
+const passportLocalMongoose   = require("passport-local-mongoose");
 
 const usersRouter = require('./routes/users');
 
