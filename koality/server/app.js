@@ -25,11 +25,11 @@ app.use(require("express-session")({
 //app routes
 app.use('/users', usersRouter);
 
-//tell express to use Passport for authentication
+//tell express to use Passport for user session
 app.use(passport.initialize());
 app.use(passport.session());
 
-//
+//serialize and deserialize userID for persistent login session
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
