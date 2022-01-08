@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const passport = require("passport");    
 const bodyParser = require("body-parser");    
-const User = require("./models/user");    
+const User = require("./models/user.model");    
 const LocalStrategy = require("passport-local"); 
 const passportLocalMongoose   = require("passport-local-mongoose");
 
@@ -16,7 +16,23 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(require("express-session")({    
+  secret:"Hello World, this is a session",    
+  resave: false,    
+  saveUninitialized: false
+}));
+
+//app routes
 app.use('/users', usersRouter);
+
+//tell express to use Passport for authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
+//
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 dotenv.config();
 
